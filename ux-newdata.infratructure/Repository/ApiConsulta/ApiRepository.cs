@@ -34,7 +34,7 @@ namespace ux_newdata.infratructure.Repository.ApiConsulta
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Error al obtener datos desde la API", ex);
+                    throw new Exception("Hubo un Error con la Api", ex);
                 }
             }
         }
