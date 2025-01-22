@@ -28,12 +28,19 @@ namespace ux_newdata.infratructure.ioc
             services.AddScoped<IUsuario, UsuarioRepository_cs>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            var builderConnection = new SqlConnectionStringBuilder(configuration.GetConnectionString("defaultConnection"));
+           // var builderConnection = new SqlConnectionStringBuilder(configuration.GetConnectionString("defaultConnection"));
+           // services.AddDbContext<_contextApi>(options =>
+           // {
+           //     options.UseNpgsql(builderConnection.ConnectionString);
+           // }, ServiceLifetime.Transient
+           //);
+
             services.AddDbContext<_contextApi>(options =>
             {
-                options.UseSqlServer(builderConnection.ConnectionString);
-            }, ServiceLifetime.Transient
-           );
+                var connectionString = configuration.GetConnectionString("defaultConnection");
+                options.UseNpgsql(connectionString);
+            }, ServiceLifetime.Transient);
+
 
             return services;
         }

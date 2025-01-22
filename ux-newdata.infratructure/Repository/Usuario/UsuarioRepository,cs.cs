@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ux_newdata.application.interfaces.Usuario;
+using ux_newdata.domain.DTO.ApiResponse;
 using ux_newdata.domain.DTO.Usuario;
 using ux_newdata.domain.Models;
 using ux_newdata.infratructure.Context;
@@ -26,13 +27,13 @@ namespace ux_newdata.infratructure.Repository.Usuario
 
         public async Task<bool> AgregarUser(UsuarioDto usuario)
         {
-            var existe = await _contextApi.Usuarios.FirstOrDefaultAsync(x => x.Email == usuario.Email);
+            var existe = await _contextApi.Usuarios.FirstOrDefaultAsync(x => x.Correo == usuario.Correo);
             if (existe != null)
             {
                 return false;
             }
             usuario.Salt = Encrypt.GenerateSalt();
-            usuario.Password = Encrypt.HashPassword(usuario.Password, usuario.Salt);
+            usuario.Clave = Encrypt.HashPassword(usuario.Clave, usuario.Salt);
             var mapper = _mapper.Map<Usuarios>(usuario);
             _contextApi.Usuarios.Add(mapper);
             await _contextApi.SaveChangesAsync();

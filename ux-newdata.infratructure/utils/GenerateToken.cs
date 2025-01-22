@@ -39,9 +39,8 @@ namespace ux_newdata.infratructure.utils
             var tokenConfig = tokenHandler.CreateToken(tokenDescription);
 
 
-            string TokenCreate = tokenHandler.WriteToken(tokenConfig);
 
-            return TokenCreate;
+            return tokenHandler.WriteToken(tokenConfig); 
         }
     }
 }

@@ -29,14 +29,14 @@ namespace ux_newdata.infratructure.Repository.Auth
         {
             try
             {
-                var validateUser = await _context.Usuarios.Where(x => x.Username == login.userName).FirstOrDefaultAsync();
+                var validateUser = await _context.Usuarios.Where(x => x.UserName == login.userName).FirstOrDefaultAsync();
                 if (validateUser != null)
                 {
                     string newHashedPassword = Encrypt.HashPassword(login.password, validateUser.Salt);
 
-                    if (validateUser.Password == newHashedPassword)
+                    if (validateUser.Clave == newHashedPassword)
                     {
-                        var token = GenerateToken.CreateToken(validateUser.IdUsuario);
+                        var token = GenerateToken.CreateToken(validateUser.IdUsuario.ToString());
                         return new AuthDto
                         {
                             Resultado = true,

@@ -14,7 +14,7 @@ namespace ux_newdata.api.Controllers.Usuario
         {
             _usuario = usuario;
         }
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> Agregar([FromBody] UsuarioDto usuario)
