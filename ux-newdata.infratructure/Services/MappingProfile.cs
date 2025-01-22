@@ -17,6 +17,7 @@ namespace ux_newdata.infratructure.Services
             CreateMap<UsuarioDto, Usuarios>().ForMember(u => u.IdUsuario, x => x.MapFrom(x => Guid.NewGuid().ToString()));
 
             CreateMap<HabitacionDto, Habitaciones>();
+            CreateMap<Habitaciones, HabitacionDto>();
         }
     }
 }

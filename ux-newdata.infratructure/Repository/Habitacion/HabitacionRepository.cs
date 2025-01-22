@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,15 +40,16 @@ namespace ux_newdata.infratructure.Repository.Habitacion
         }
         public Task<bool> EliminarHabitacion(int id)
         {
-             
-        }
-        public Task<IEnumerable<HabitacionDto>> ObtenerHabitaciones()
-        {
             throw new NotImplementedException();
+
         }
-        public Task<HabitacionDto> ObtenerHabitacionPorId(int id)
+        public async Task<IEnumerable<HabitacionDto>> ObtenerHabitaciones()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<HabitacionDto>>(await _contextApi.Habitaciones.ToListAsync());
+        }
+        public async Task<HabitacionDto> ObtenerHabitacionPorId(Guid id)
+        {
+            return _mapper.Map<HabitacionDto>(await _contextApi.Habitaciones.FirstOrDefaultAsync(x => x.IdHabitacion == id));
         }
        
     }

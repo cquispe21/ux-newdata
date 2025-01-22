@@ -13,7 +13,7 @@ namespace ux_newdata.application.interfaces.Habitaciones
         Task<bool> ActualizarHabitacion(HabitacionDto habitacion);
         Task<bool> EliminarHabitacion(int id);
         Task<IEnumerable<HabitacionDto>> ObtenerHabitaciones();
-        Task<HabitacionDto> ObtenerHabitacionPorId(int id);
+        Task<HabitacionDto> ObtenerHabitacionPorId(Guid id);
        
     }
 }
