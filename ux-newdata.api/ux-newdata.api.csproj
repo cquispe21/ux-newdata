@@ -23,4 +23,9 @@
     <ProjectReference Include="..\ux-newdata.infratructure\ux-newdata.infratructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Pagos\" />
+    <Folder Include="Controllers\Reservas\" />
+  </ItemGroup>
+
 </Project>
