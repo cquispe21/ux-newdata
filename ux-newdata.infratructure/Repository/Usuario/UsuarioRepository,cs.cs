@@ -30,18 +30,27 @@ namespace ux_newdata.infratructure.Repository.Usuario
 
         public async Task<bool> AgregarUser(UsuarioDto usuario)
         {
-            var existe = await _contextApi.Usuarios.FirstOrDefaultAsync(x => x.Correo == usuario.Correo);
-            if (existe != null)
-            {
-                return false;
+            try{
+                var existe = await _contextApi.Usuarios.FirstOrDefaultAsync(x => x.Correo == usuario.Correo);
+                if (existe != null)
+                {
+                    return false;
+                }
+                usuario.Salt = Encrypt.GenerateSalt();
+                usuario.Clave = Encrypt.HashPassword(usuario.Clave, usuario.Salt);
+                var mapper = _mapper.Map<Usuarios>(usuario);
+                _contextApi.Usuarios.Add(mapper);
+                await _contextApi.SaveChangesAsync();
+                _logger.LogWarning("Usuario agregado");
+                return true;
             }
-            usuario.Salt = Encrypt.GenerateSalt();
-            usuario.Clave = Encrypt.HashPassword(usuario.Clave, usuario.Salt);
-            var mapper = _mapper.Map<Usuarios>(usuario);
-            _contextApi.Usuarios.Add(mapper);
-            await _contextApi.SaveChangesAsync();
-            _logger.LogWarning("Usuario agregado");
-            return true;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+
+
 
         }
     }
