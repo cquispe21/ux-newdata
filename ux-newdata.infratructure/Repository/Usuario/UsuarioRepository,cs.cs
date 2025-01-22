@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace ux_newdata.infratructure.Repository.Usuario
     {
         private readonly _contextApi _contextApi;
         private readonly IMapper _mapper;
+        private readonly ILogger<UsuarioRepository_cs> _logger;
 
-        public UsuarioRepository_cs(_contextApi contextApi, IMapper mapper)
+        public UsuarioRepository_cs(_contextApi contextApi, IMapper mapper, ILogger<UsuarioRepository_cs> logger)
         {
             _contextApi = contextApi;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<bool> AgregarUser(UsuarioDto usuario)
@@ -37,6 +40,7 @@ namespace ux_newdata.infratructure.Repository.Usuario
             var mapper = _mapper.Map<Usuarios>(usuario);
             _contextApi.Usuarios.Add(mapper);
             await _contextApi.SaveChangesAsync();
+            _logger.LogWarning("Usuario agregado");
             return true;
 
         }

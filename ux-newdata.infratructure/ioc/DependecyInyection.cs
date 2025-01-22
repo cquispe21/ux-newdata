@@ -10,10 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using ux_newdata.application.interfaces;
 using ux_newdata.application.interfaces.Auth;
+using ux_newdata.application.interfaces.Habitaciones;
 using ux_newdata.application.interfaces.Usuario;
 using ux_newdata.infratructure.Context;
 using ux_newdata.infratructure.Repository.ApiConsulta;
 using ux_newdata.infratructure.Repository.Auth;
+using ux_newdata.infratructure.Repository.Habitacion;
 using ux_newdata.infratructure.Repository.Usuario;
 
 namespace ux_newdata.infratructure.ioc
@@ -26,6 +28,7 @@ namespace ux_newdata.infratructure.ioc
             services.AddScoped<IApi, ApiRepository>();
             services.AddScoped<ÍAuth, AuthRepository>();
             services.AddScoped<IUsuario, UsuarioRepository_cs>();
+            services.AddScoped<IHabitacion, HabitacionRepository>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
            // var builderConnection = new SqlConnectionStringBuilder(configuration.GetConnectionString("defaultConnection"));

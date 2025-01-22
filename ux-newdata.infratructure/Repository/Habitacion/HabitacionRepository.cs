@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,13 @@ namespace ux_newdata.infratructure.Repository.Habitacion
     {
         private readonly _contextApi _contextApi;
         private readonly IMapper _mapper;
+        private readonly ILogger<HabitacionRepository> _logger;
 
-        public HabitacionRepository(_contextApi contextApi, IMapper mapper)
+        public HabitacionRepository(_contextApi contextApi, IMapper mapper, ILogger<HabitacionRepository> logger)
         {
             _contextApi = contextApi;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<bool> AgregarHabitacion(HabitacionDto habitacion)
@@ -28,15 +31,24 @@ namespace ux_newdata.infratructure.Repository.Habitacion
             var mapper = _mapper.Map<Habitaciones>(habitacion);
             _contextApi.Habitaciones.Add(mapper);
             await _contextApi.SaveChangesAsync();
+            _logger.LogInformation("Habitacion agregada");
             return true;
         }
         public async Task<bool> ActualizarHabitacion(HabitacionDto habitacion)
         {
+            try
+            {
+                var mapper = _mapper.Map<Habitaciones>(habitacion);
+                _contextApi.Habitaciones.Update(mapper);
+                await _contextApi.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
-            var mapper = _mapper.Map<Habitaciones>(habitacion);
-            _contextApi.Habitaciones.Update(mapper);
-            await _contextApi.SaveChangesAsync();
-            return true;
+
         }
         public Task<bool> EliminarHabitacion(int id)
         {
@@ -44,8 +56,14 @@ namespace ux_newdata.infratructure.Repository.Habitacion
 
         }
         public async Task<IEnumerable<HabitacionDto>> ObtenerHabitaciones()
+
         {
-            return _mapper.Map<IEnumerable<HabitacionDto>>(await _contextApi.Habitaciones.ToListAsync());
+            try { return _mapper.Map<IEnumerable<HabitacionDto>>(await _contextApi.Habitaciones.ToListAsync()); }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
         public async Task<HabitacionDto> ObtenerHabitacionPorId(Guid id)
         {
